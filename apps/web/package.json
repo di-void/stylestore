@@ -1,0 +1,27 @@
+{
+  "name": "@stylestore/web",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "astro:sync": "astro sync"
+  },
+  "dependencies": {
+    "@astrojs/node": "9.5.4",
+    "@astrojs/react": "4.4.2",
+    "astro": "5.18.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.12",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "4.1.12",
+    "tsx": "^4.20.5"
+  }
+}

@@ -1,0 +1,92 @@
+---
+import StoreLayout from "../layouts/store-layout.astro";
+import LandingProductsSection from "../components/landing-products-section.astro";
+import ProductSectionSkeleton from "../components/product-section-skeleton.astro";
+
+const newWeekCollection = "new-this-week";
+const seasonalCollection = "seasonal";
+---
+
+<StoreLayout title="StyleStore - Home">
+    <div class="bg-white">
+        <section class="relative h-[600px] bg-white overflow-hidden">
+            <div
+                class="max-w-[1280px] mx-auto px-6 lg:px-12 h-full grid grid-cols-1 lg:grid-cols-12 gap-8 py-12"
+            >
+                <div class="lg:col-span-5 flex flex-col justify-center">
+                    <p
+                        class="text-[10px] tracking-[0.4px] uppercase opacity-40 mb-6 font-medium"
+                    >
+                        new collection
+                    </p>
+                    <h1
+                        class="text-[48px] lg:text-[64px] leading-[1.1] font-black tracking-[-1.6px] uppercase mb-6"
+                    >
+                        new<br />collection
+                    </h1>
+                    <p class="text-sm opacity-60 mb-8 max-w-sm leading-relaxed">
+                        Discover our latest arrivals. Premium quality clothing
+                        designed for modern living.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <a
+                            href="/products"
+                            class="h-[40px] px-8 bg-line-strong hover:bg-gray-300 transition text-sm font-medium tracking-wide leading-[40px]"
+                        >
+                            Go To Shop
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 grid grid-cols-2 gap-4">
+                    <img
+                        src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80"
+                        alt="Collection"
+                        class="w-full h-full object-cover"
+                    />
+                    <img
+                        src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80"
+                        alt="Collection"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <LandingProductsSection
+            server:defer
+            titleLines={["New", "This week"]}
+            ctaHref="/products"
+            ctaLabel="See All"
+            collection={newWeekCollection}
+            limit={4}
+            gridClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+            <ProductSectionSkeleton
+                slot="fallback"
+                titleLines={["New", "This week"]}
+                ctaHref="/products"
+                ctaLabel="See All"
+                items={4}
+                gridClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            />
+        </LandingProductsSection>
+
+        <LandingProductsSection
+            server:defer
+            titleLines={["seasonal"]}
+            collection={seasonalCollection}
+            limit={3}
+            gridClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            sectionClass="bg-surface py-16"
+        >
+            <ProductSectionSkeleton
+                slot="fallback"
+                titleLines={["Seasonal"]}
+                items={3}
+                gridClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                sectionClass="bg-surface py-16"
+            />
+        </LandingProductsSection>
+    </div>
+</StoreLayout>

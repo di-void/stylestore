@@ -1,0 +1,123 @@
+---
+import BaseLayout from "./base-layout.astro";
+import { CartBadge } from "../components/cart-badge";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "StyleStore" } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <div class="min-h-screen flex flex-col bg-white font-['Inter',sans-serif]">
+    <header class="border-b border-gray-200">
+      <div class="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div class="flex justify-between items-center h-[100px] relative">
+          <a href="/" class="text-xl font-medium tracking-[2px] uppercase"
+            >StyleStore</a
+          >
+
+          <nav class="hidden md:flex gap-8 absolute left-1/2 -translate-x-1/2">
+            <a
+              href="/"
+              class="text-sm tracking-[2px] uppercase opacity-60 hover:opacity-100 transition"
+            >
+              Home
+            </a>
+            <a
+              href="/products"
+              class="text-sm tracking-[2px] uppercase opacity-60 hover:opacity-100 transition"
+            >
+              Products
+            </a>
+            <a
+              href="/orders"
+              class="text-sm tracking-[2px] uppercase opacity-60 hover:opacity-100 transition"
+            >
+              Orders
+            </a>
+          </nav>
+
+          <div class="flex items-center gap-3">
+            <CartBadge client:load />
+
+            <button
+              class="w-[50px] h-[50px] rounded-full bg-black items-center justify-center hover:bg-gray-800 transition hidden md:flex"
+              type="button"
+            >
+              <img src="/icons/user.svg" alt="Profile" class="w-5 h-5 invert" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 bg-surface">
+      <slot />
+    </main>
+
+    <footer class="bg-surface-alt py-20">
+      <div class="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+          <div class="md:col-span-2">
+            <p
+              class="text-[10px] tracking-[0.4px] uppercase opacity-40 mb-8 font-medium"
+            >
+              Info
+            </p>
+            <nav class="flex flex-col gap-2">
+              {
+                ["pricing", "about", "contacts"].map((link) => {
+                  return (
+                    <a
+                      href="#"
+                      class="text-xs leading-relaxed opacity-60 hover:opacity-100 transition uppercase font-medium"
+                    >
+                      {link}
+                    </a>
+                  );
+                })
+              }
+            </nav>
+          </div>
+
+          <div class="md:col-span-2">
+            <p
+              class="text-[10px] tracking-[0.4px] uppercase opacity-40 mb-8 font-medium"
+            >
+              Shop
+            </p>
+            <nav class="flex flex-col gap-2">
+              <a
+                href="/products"
+                class="text-xs leading-relaxed opacity-60 hover:opacity-100 transition uppercase font-medium"
+                >All Products</a
+              >
+              <a
+                href="#"
+                class="text-xs leading-relaxed opacity-60 hover:opacity-100 transition uppercase font-medium"
+                >New Arrivals</a
+              >
+              <a
+                href="#"
+                class="text-xs leading-relaxed opacity-60 hover:opacity-100 transition uppercase font-medium"
+                >Sale</a
+              >
+            </nav>
+          </div>
+        </div>
+
+        <div
+          class="flex justify-between items-center border-t border-gray-300 pt-8 text-[10px] leading-relaxed opacity-40 font-medium"
+        >
+          <p>© 2026 — copyright</p>
+          <div class="flex gap-8">
+            <a href="#" class="hover:opacity-100 transition">privacy</a>
+            <a href="#" class="hover:opacity-100 transition">Terms</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

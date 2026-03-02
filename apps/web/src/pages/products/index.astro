@@ -1,0 +1,131 @@
+---
+import StoreLayout from "../../layouts/store-layout.astro";
+import { ProductsFilters } from "../../components/products-filter";
+import ProductsCategoriesRow from "../../components/products-categories-row.astro";
+import ProductsCategoriesSkeleton from "../../components/products-categories-skeleton.astro";
+import ProductsPagination from "../../components/products-pagination.astro";
+import ProductsEmptyState from "../../components/products-empty-state.astro";
+import { fetchProductsListingPage } from "../../lib/api/products";
+
+const searchQuery = (Astro.url.searchParams.get("q") ?? "").trim();
+const categoryParam = (Astro.url.searchParams.get("category") ?? "").trim();
+const normalizedCategory = categoryParam.toLowerCase();
+const cursorParam = Astro.url.searchParams.get("cursor");
+const directionParam = Astro.url.searchParams.get("dir");
+const direction = directionParam === "prev" ? "prev" : "next";
+const pageSize = 12;
+
+const page = await fetchProductsListingPage({
+    search: searchQuery,
+    category: normalizedCategory,
+    limit: pageSize,
+    cursor: cursorParam,
+    direction,
+});
+const products = page.items;
+---
+
+<StoreLayout title="StyleStore - Products">
+    <div class="bg-white min-h-screen">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-12 py-8">
+            <nav class="text-xs mb-6 opacity-60 uppercase tracking-wide">
+                <a href="/" class="hover:opacity-100">Home</a>
+                <span class="mx-2">/</span>
+                <span class="opacity-100 text-black capitalize">products</span>
+            </nav>
+
+            <h1 class="text-4xl font-black uppercase tracking-tight mb-2">
+                products
+            </h1>
+            <p class="text-xs uppercase tracking-[2px] opacity-60 mb-8">
+                {page.totalCount} results
+            </p>
+
+            <div class="mb-8">
+                <form method="get" class="relative max-w-md">
+                    <input
+                        type="text"
+                        name="q"
+                        value={searchQuery}
+                        placeholder="Search"
+                        class="w-full h-[50px] bg-input rounded-sm px-12 text-sm placeholder:text-black placeholder:opacity-60 focus:outline-none focus:bg-gray-300 transition"
+                    />
+                    {
+                        categoryParam ? (
+                            <input
+                                type="hidden"
+                                name="category"
+                                value={categoryParam}
+                            />
+                        ) : null
+                    }
+                    <img
+                        src="/icons/search.svg"
+                        alt="Search"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-60"
+                    />
+                </form>
+            </div>
+
+            <ProductsCategoriesRow
+                server:defer
+                searchQuery={searchQuery}
+                categoryParam={categoryParam}
+            >
+                <ProductsCategoriesSkeleton slot="fallback" />
+            </ProductsCategoriesRow>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <ProductsFilters client:load />
+
+                <div class="lg:col-span-9">
+                    {
+                        products.length === 0 ? (
+                            <ProductsEmptyState
+                                searchQuery={searchQuery}
+                                categoryParam={categoryParam}
+                            />
+                        ) : (
+                            <>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {products.map((product) => (
+                                        <a
+                                            href={`/product/${product.id}`}
+                                            class="group block"
+                                        >
+                                            <div class="relative aspect-[3/4] bg-gray-100 border border-line-strong overflow-hidden mb-4">
+                                                <img
+                                                    src={product.image}
+                                                    alt={product.name}
+                                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                                />
+                                            </div>
+                                            <p class="text-xs opacity-60 mb-1 font-medium capitalize">
+                                                {product.category}
+                                            </p>
+                                            <h3 class="text-sm capitalize mb-2 font-medium">
+                                                {product.name}
+                                            </h3>
+                                            <p class="text-sm font-medium">
+                                                ${product.price.toFixed(2)}
+                                            </p>
+                                        </a>
+                                    ))}
+                                </div>
+
+                                <ProductsPagination
+                                    hasNext={page.hasNext}
+                                    hasPrev={page.hasPrev}
+                                    nextCursor={page.nextCursor}
+                                    prevCursor={page.prevCursor}
+                                    searchQuery={searchQuery}
+                                    categoryParam={categoryParam}
+                                />
+                            </>
+                        )
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</StoreLayout>

@@ -1,0 +1,59 @@
+---
+import { fetchProductCategories } from "../lib/api/products";
+
+type Props = {
+    searchQuery?: string;
+    categoryParam?: string;
+};
+
+const { searchQuery = "", categoryParam = "" } = Astro.props;
+const normalizedCategory = categoryParam.toLowerCase();
+
+const categories = (await fetchProductCategories()).sort((a, b) =>
+    a.localeCompare(b),
+);
+
+function buildQueryString(nextCategory = "") {
+    const params = new URLSearchParams();
+    if (searchQuery) {
+        params.set("q", searchQuery);
+    }
+    if (nextCategory) {
+        params.set("category", nextCategory);
+    }
+    const queryString = params.toString();
+    return queryString ? `?${queryString}` : "";
+}
+---
+
+<div class="flex flex-wrap gap-3 mb-12 pb-8 border-b border-gray-200">
+    <a
+        href={`/products${buildQueryString("")}`}
+        class:list={[
+            "px-6 h-[36px] inline-flex items-center justify-center border text-xs font-medium uppercase tracking-wide transition",
+            !normalizedCategory
+                ? "border-black bg-black text-white"
+                : "border-gray-300 hover:border-black",
+        ]}
+    >
+        all
+    </a>
+    {
+        categories.map((category) => {
+            const isActive = category.toLowerCase() === normalizedCategory;
+            return (
+                <a
+                    href={`/products${buildQueryString(category)}`}
+                    class:list={[
+                        "px-6 h-[36px] inline-flex items-center justify-center border text-xs font-medium uppercase tracking-wide transition",
+                        isActive
+                            ? "border-black bg-black text-white"
+                            : "border-gray-300 hover:border-black",
+                    ]}
+                >
+                    {category.toUpperCase()}
+                </a>
+            );
+        })
+    }
+</div>

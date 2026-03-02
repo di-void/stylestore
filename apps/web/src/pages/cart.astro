@@ -1,0 +1,8 @@
+---
+import StoreLayout from "../layouts/store-layout.astro";
+import { CartContents } from "../components/cart-contents";
+---
+
+<StoreLayout title="StyleStore - Cart">
+    <CartContents client:load />
+</StoreLayout>

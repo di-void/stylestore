@@ -1,0 +1,29 @@
+---
+const { searchQuery = "", categoryParam = "" } = Astro.props;
+const contextParts = [] as string[];
+
+if (searchQuery) {
+  contextParts.push(`for "${searchQuery}"`);
+}
+
+if (categoryParam) {
+  contextParts.push(`in ${categoryParam}`);
+}
+
+const context = contextParts.length > 0 ? ` ${contextParts.join(" ")}` : "";
+---
+
+<div class="border border-line-strong bg-gray-50 px-6 py-10 text-center">
+  <p class="text-xs uppercase tracking-[2px] font-bold mb-3">
+    No matches found
+  </p>
+  <p class="text-sm opacity-60 mb-6">
+    We couldn't find anything{context}. Try adjusting your search or filters.
+  </p>
+  <a
+    href="/products"
+    class="inline-flex items-center justify-center text-xs font-bold uppercase tracking-[2px] border border-black px-4 py-2 hover:bg-black hover:text-white transition"
+  >
+    Reset filters
+  </a>
+</div>

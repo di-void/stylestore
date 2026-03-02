@@ -1,0 +1,76 @@
+---
+type Props = Partial<{
+    title: string;
+    titleLines: string[];
+    ctaHref: string;
+    ctaLabel: string;
+    items: number;
+    gridClass: string;
+    sectionClass: string;
+}>;
+
+const {
+    title = "",
+    titleLines = [],
+    ctaHref,
+    ctaLabel = "See All",
+    items = 4,
+    gridClass = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6",
+    sectionClass = "bg-white py-16",
+} = Astro.props;
+
+const placeholders = Array.from({ length: items });
+---
+
+<section class={sectionClass}>
+    <div class="max-w-[1280px] mx-auto px-6 lg:px-12">
+        <div
+            class:list={[
+                {
+                    "mb-8": !ctaHref,
+                    "flex justify-between items-start mb-12": ctaHref,
+                },
+            ]}
+        >
+            <h2
+                class="text-[48px] leading-[1.1] font-black tracking-[-1.6px] uppercase"
+            >
+                {
+                    titleLines.length
+                        ? titleLines.map((line, index) => (
+                              <>
+                                  {line}
+                                  {index < titleLines.length - 1 ? (
+                                      <br />
+                                  ) : null}
+                              </>
+                          ))
+                        : title
+                }
+            </h2>
+            {
+                ctaHref ? (
+                    <a
+                        href={ctaHref}
+                        class="text-sm opacity-60 hover:opacity-100 transition"
+                    >
+                        {ctaLabel}
+                    </a>
+                ) : null
+            }
+        </div>
+
+        <div class={gridClass}>
+            {
+                placeholders.map((_) => (
+                    <div class="group block" aria-hidden="true">
+                        <div class="relative aspect-[3/4] bg-gray-200 border border-line overflow-hidden mb-4 animate-pulse" />
+                        <div class="h-3 w-24 bg-gray-200 mb-2 animate-pulse" />
+                        <div class="h-4 w-40 bg-gray-200 mb-2 animate-pulse" />
+                        <div class="h-4 w-16 bg-gray-200 animate-pulse" />
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

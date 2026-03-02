@@ -1,0 +1,8 @@
+---
+import StoreLayout from "../layouts/store-layout.astro";
+import { OrdersList } from "../components/orders-list";
+---
+
+<StoreLayout title="StyleStore - Orders">
+    <OrdersList client:load />
+</StoreLayout>

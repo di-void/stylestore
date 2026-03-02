@@ -1,0 +1,13 @@
+---
+const items = 8;
+---
+
+<div class="flex flex-wrap gap-3 mb-12 pb-8 border-b border-gray-200">
+    {
+        Array.from({ length: items }).map(() => (
+            <div class="px-6 h-[36px] inline-flex items-center justify-center border text-xs font-medium uppercase tracking-wide border-gray-300">
+                <span class="w-16 h-3 bg-gray-200" />
+            </div>
+        ))
+    }
+</div>

@@ -1,0 +1,66 @@
+---
+const {
+    hasNext = false,
+    hasPrev = false,
+    nextCursor,
+    prevCursor,
+    searchQuery = "",
+    categoryParam = "",
+} = Astro.props;
+
+const baseParams = new URLSearchParams();
+
+if (searchQuery) {
+    baseParams.set("q", searchQuery);
+}
+
+if (categoryParam) {
+    baseParams.set("category", categoryParam);
+}
+
+function buildLink(direction: "next" | "prev", cursor?: string) {
+    const params = new URLSearchParams(baseParams);
+
+    if (cursor) {
+        params.set("cursor", cursor);
+    }
+
+    params.set("dir", direction);
+    const query = params.toString();
+    return query ? `/products?${query}` : "/products";
+}
+---
+
+<nav
+    class="mt-10 flex items-center justify-between border-t border-line-strong pt-6"
+>
+    {
+        hasPrev ? (
+            <a
+                href={buildLink("prev", prevCursor)}
+                class="text-xs font-bold uppercase tracking-[2px] border border-black px-4 py-2 hover:bg-black hover:text-white transition"
+            >
+                Previous
+            </a>
+        ) : (
+            <span class="text-xs font-bold uppercase tracking-[2px] border border-gray-300 text-gray-400 px-4 py-2 cursor-not-allowed">
+                Previous
+            </span>
+        )
+    }
+
+    {
+        hasNext ? (
+            <a
+                href={buildLink("next", nextCursor)}
+                class="text-xs font-bold uppercase tracking-[2px] border border-black px-4 py-2 hover:bg-black hover:text-white transition"
+            >
+                Next
+            </a>
+        ) : (
+            <span class="text-xs font-bold uppercase tracking-[2px] border border-gray-300 text-gray-400 px-4 py-2 cursor-not-allowed">
+                Next
+            </span>
+        )
+    }
+</nav>
