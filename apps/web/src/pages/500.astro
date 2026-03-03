@@ -1,0 +1,23 @@
+---
+import StoreLayout from "../layouts/store-layout.astro";
+---
+
+<StoreLayout title="StyleStore - Something went wrong">
+    <div class="bg-white min-h-[60vh] flex items-center justify-center px-4">
+        <div class="text-center">
+            <h1 class="text-[80px] font-black tracking-tight mb-4">500</h1>
+            <h2 class="text-2xl font-black uppercase tracking-tight mb-4">
+                Something Went Wrong
+            </h2>
+            <p class="text-sm opacity-60 mb-12">
+                We hit a snag loading this page. Please try again.
+            </p>
+            <a
+                href="/"
+                class="inline-block h-[50px] px-12 bg-black text-white font-medium text-sm uppercase tracking-wide hover:bg-gray-800 transition leading-[50px]"
+            >
+                Go Home
+            </a>
+        </div>
+    </div>
+</StoreLayout>

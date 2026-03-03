@@ -27,33 +27,36 @@ function buildQueryString(nextCategory = "") {
 ---
 
 <div class="flex flex-wrap gap-3 mb-12 pb-8 border-b border-gray-200">
-    <a
-        href={`/products${buildQueryString("")}`}
-        class:list={[
-            "px-6 h-[36px] inline-flex items-center justify-center border text-xs font-medium uppercase tracking-wide transition",
-            !normalizedCategory
-                ? "border-black bg-black text-white"
-                : "border-gray-300 hover:border-black",
-        ]}
-    >
-        all
-    </a>
-    {
-        categories.map((category) => {
-            const isActive = category.toLowerCase() === normalizedCategory;
-            return (
-                <a
-                    href={`/products${buildQueryString(category)}`}
-                    class:list={[
-                        "px-6 h-[36px] inline-flex items-center justify-center border text-xs font-medium uppercase tracking-wide transition",
-                        isActive
-                            ? "border-black bg-black text-white"
-                            : "border-gray-300 hover:border-black",
-                    ]}
-                >
-                    {category.toUpperCase()}
-                </a>
-            );
-        })
-    }
+    <>
+        <a
+            href={`/products${buildQueryString("")}`}
+            class:list={[
+                "px-6 h-[36px] inline-flex items-center justify-center border text-xs font-medium uppercase tracking-wide transition",
+                !normalizedCategory
+                    ? "border-black bg-black text-white"
+                    : "border-gray-300 hover:border-black",
+            ]}
+        >
+            all
+        </a>
+        {
+            categories.map((category) => {
+                const isActive =
+                    category.toLowerCase() === normalizedCategory;
+                return (
+                    <a
+                        href={`/products${buildQueryString(category)}`}
+                        class:list={[
+                            "px-6 h-[36px] inline-flex items-center justify-center border text-xs font-medium uppercase tracking-wide transition",
+                            isActive
+                                ? "border-black bg-black text-white"
+                                : "border-gray-300 hover:border-black",
+                        ]}
+                    >
+                        {category.toUpperCase()}
+                    </a>
+                );
+            })
+        }
+    </>
 </div>

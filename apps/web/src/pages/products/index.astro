@@ -15,14 +15,14 @@ const directionParam = Astro.url.searchParams.get("dir");
 const direction = directionParam === "prev" ? "prev" : "next";
 const pageSize = 12;
 
-const page = await fetchProductsListingPage({
+const pageData = await fetchProductsListingPage({
     search: searchQuery,
     category: normalizedCategory,
     limit: pageSize,
     cursor: cursorParam,
     direction,
 });
-const products = page.items;
+const products = pageData.items;
 ---
 
 <StoreLayout title="StyleStore - Products">
@@ -38,7 +38,7 @@ const products = page.items;
                 products
             </h1>
             <p class="text-xs uppercase tracking-[2px] opacity-60 mb-8">
-                {page.totalCount} results
+                {`${pageData.totalCount} results`}
             </p>
 
             <div class="mb-8">
@@ -79,51 +79,49 @@ const products = page.items;
                 <ProductsFilters client:load />
 
                 <div class="lg:col-span-9">
-                    {
-                        products.length === 0 ? (
-                            <ProductsEmptyState
+                    {products.length === 0 ? (
+                        <ProductsEmptyState
+                            searchQuery={searchQuery}
+                            categoryParam={categoryParam}
+                        />
+                    ) : (
+                        <>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {products.map((product) => (
+                                    <a
+                                        href={`/product/${product.id}`}
+                                        class="group block"
+                                    >
+                                        <div class="relative aspect-[3/4] bg-gray-100 border border-line-strong overflow-hidden mb-4">
+                                            <img
+                                                src={product.image}
+                                                alt={product.name}
+                                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                            />
+                                        </div>
+                                        <p class="text-xs opacity-60 mb-1 font-medium capitalize">
+                                            {product.category}
+                                        </p>
+                                        <h3 class="text-sm capitalize mb-2 font-medium">
+                                            {product.name}
+                                        </h3>
+                                        <p class="text-sm font-medium">
+                                            ${product.price.toFixed(2)}
+                                        </p>
+                                    </a>
+                                ))}
+                            </div>
+
+                            <ProductsPagination
+                                hasNext={pageData.hasNext}
+                                hasPrev={pageData.hasPrev}
+                                nextCursor={pageData.nextCursor}
+                                prevCursor={pageData.prevCursor}
                                 searchQuery={searchQuery}
                                 categoryParam={categoryParam}
                             />
-                        ) : (
-                            <>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {products.map((product) => (
-                                        <a
-                                            href={`/product/${product.id}`}
-                                            class="group block"
-                                        >
-                                            <div class="relative aspect-[3/4] bg-gray-100 border border-line-strong overflow-hidden mb-4">
-                                                <img
-                                                    src={product.image}
-                                                    alt={product.name}
-                                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                                                />
-                                            </div>
-                                            <p class="text-xs opacity-60 mb-1 font-medium capitalize">
-                                                {product.category}
-                                            </p>
-                                            <h3 class="text-sm capitalize mb-2 font-medium">
-                                                {product.name}
-                                            </h3>
-                                            <p class="text-sm font-medium">
-                                                ${product.price.toFixed(2)}
-                                            </p>
-                                        </a>
-                                    ))}
-                                </div>
-
-                                <ProductsPagination
-                                    hasNext={page.hasNext}
-                                    hasPrev={page.hasPrev}
-                                    nextCursor={page.nextCursor}
-                                    prevCursor={page.prevCursor}
-                                    searchQuery={searchQuery}
-                                    categoryParam={categoryParam}
-                                />
-                            </>
-                        )
-                    }
+                        </>
+                    )}
                 </div>
             </div>
         </div>

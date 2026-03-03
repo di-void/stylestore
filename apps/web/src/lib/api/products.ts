@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { requestJson } from "./index";
+import { ApiError, requestJson } from "./index";
 
 const productSchema = z.object({
   id: z.string(),
@@ -90,19 +90,29 @@ export async function fetchProductsListingPage(options: {
   }
 
   const query = params.toString();
-  return requestJson(
+  const response = await requestJson(
     `/api/v1/products/listing${query ? `?${query}` : ""}`,
     productsListingResponseSchema,
   );
+
+  return response;
 }
 
 export async function fetchProductById(id: string) {
-  const response = await requestJson(
-    `/api/v1/products/${encodeURIComponent(id)}`,
-    productResponseSchema,
-  );
+  try {
+    const response = await requestJson(
+      `/api/v1/products/${encodeURIComponent(id)}`,
+      productResponseSchema,
+    );
 
-  return response.item;
+    return response.item;
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) {
+      return null;
+    }
+
+    throw error;
+  }
 }
 
 export async function fetchRelatedProducts(options: {
