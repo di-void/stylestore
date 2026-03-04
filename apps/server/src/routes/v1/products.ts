@@ -1,16 +1,18 @@
 import { Router } from "express";
-
+import { z } from "zod";
 import {
-  getProductByIdModule,
-  getProductCategoriesModule,
-  getProductsByCollectionsModule,
-  getProductsListingModule,
-  getRelatedProductsModule,
+  getProductByIdHandler,
+  getProductCategoriesHandler,
+  getProductsByCollectionsHandler,
+  getProductsListingHandler,
+  getRelatedProductsHandler,
+} from "../../modules/products/handlers.js";
+import {
   productIdParamsSchema,
   productsByCollectionsQuerySchema,
   productsListingQuerySchema,
   relatedProductsQuerySchema,
-} from "../../modules/products/index.js";
+} from "@stylestore/contracts";
 
 export const productsRouter = Router();
 
@@ -18,11 +20,11 @@ productsRouter.get("/by-collections", async (req, res) => {
   const parsed = productsByCollectionsQuerySchema.safeParse(req.query);
 
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.flatten() });
+    res.status(400).json({ error: z.formatError(parsed.error) });
     return;
   }
 
-  const data = await getProductsByCollectionsModule(parsed.data);
+  const data = await getProductsByCollectionsHandler(parsed.data);
 
   res.status(200).json(data);
 });
@@ -31,17 +33,16 @@ productsRouter.get("/listing", async (req, res) => {
   const parsed = productsListingQuerySchema.safeParse(req.query);
 
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.flatten() });
+    res.status(400).json({ error: z.formatError(parsed.error) });
     return;
   }
 
-  const data = await getProductsListingModule(parsed.data);
-
+  const data = await getProductsListingHandler(parsed.data);
   res.status(200).json(data);
 });
 
 productsRouter.get("/categories", async (_req, res) => {
-  const data = await getProductCategoriesModule();
+  const data = await getProductCategoriesHandler();
 
   res.status(200).json(data);
 });
@@ -50,11 +51,11 @@ productsRouter.get("/related", async (req, res) => {
   const parsed = relatedProductsQuerySchema.safeParse(req.query);
 
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.flatten() });
+    res.status(400).json({ error: z.formatError(parsed.error) });
     return;
   }
 
-  const data = await getRelatedProductsModule(parsed.data);
+  const data = await getRelatedProductsHandler(parsed.data);
 
   res.status(200).json(data);
 });
@@ -63,11 +64,11 @@ productsRouter.get("/:id", async (req, res) => {
   const parsed = productIdParamsSchema.safeParse(req.params);
 
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.flatten() });
+    res.status(400).json({ error: z.formatError(parsed.error) });
     return;
   }
 
-  const data = await getProductByIdModule(parsed.data);
+  const data = await getProductByIdHandler(parsed.data);
 
   if (!data) {
     res.status(404).json({ error: "Product not found" });

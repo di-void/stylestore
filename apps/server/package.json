@@ -14,6 +14,7 @@
     "db:reset": "tsx src/db/reset.ts"
   },
   "dependencies": {
+    "@stylestore/contracts": "workspace:",
     "@acme/add": "workspace:",
     "@t3-oss/env-core": "0.13.10",
     "cors": "^2.8.5",

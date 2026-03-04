@@ -12,9 +12,8 @@ import {
   sql,
 } from "drizzle-orm";
 import type { SQL } from "drizzle-orm";
-
-import { db } from "./index.js";
-import { products } from "./schema.js";
+import { db } from "../../db/index.js";
+import { products } from "../../db/schema.js";
 
 export interface ProductsByCollectionsOptions {
   collections: string[];

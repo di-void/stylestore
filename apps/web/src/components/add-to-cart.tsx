@@ -35,7 +35,7 @@ export function AddToCartControls({ product }: Props) {
           Select Size
         </label>
         <div className="flex flex-wrap gap-2">
-          {product.sizes.map((size) => (
+          {(product.sizes ?? []).map((size) => (
             <button
               key={size}
               type="button"
@@ -57,7 +57,7 @@ export function AddToCartControls({ product }: Props) {
           Select Color
         </label>
         <div className="flex flex-wrap gap-2">
-          {product.colors.map((color) => (
+          {(product.colors ?? []).map((color) => (
             <button
               key={color}
               type="button"

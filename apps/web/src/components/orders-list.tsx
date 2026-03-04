@@ -88,7 +88,7 @@ export function OrdersList() {
                       <div className="w-24 h-32 bg-gray-100 border border-line overflow-hidden flex-shrink-0">
                         <a href={`/product/${item.product.id}`}>
                           <img
-                            src={item.product.image}
+                            src={item.product.image ?? ""}
                             alt={item.product.name}
                             className="w-full h-full object-cover hover:scale-105 transition duration-300"
                           />
@@ -102,7 +102,7 @@ export function OrdersList() {
                           {item.product.name}
                         </a>
                         <p className="text-xs opacity-60 uppercase tracking-wide mb-2">
-                          {item.product.category}
+                          {item.product.category ?? "Uncategorized"}
                         </p>
                         <p className="text-sm opacity-60 mb-3">
                           Size: <span className="uppercase">{item.size}</span> |

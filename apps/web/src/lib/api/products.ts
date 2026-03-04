@@ -1,41 +1,11 @@
-import { z } from "zod";
-
+import {
+  productCategoriesResponseSchema,
+  productResponseSchema,
+  productsByCollectionsResponseSchema,
+  productsListingResponseSchema,
+  type ProductDto,
+} from "@stylestore/contracts";
 import { ApiError, requestJson } from "./index";
-
-const productSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  price: z.number(),
-  description: z.string(),
-  category: z.string(),
-  collection: z.string(),
-  image: z.string(),
-  sizes: z.array(z.string()),
-  colors: z.array(z.string()),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
-
-const productsByCollectionsResponseSchema = z.object({
-  items: z.array(productSchema),
-});
-
-const productCategoriesResponseSchema = z.object({
-  categories: z.array(z.string()),
-});
-
-const productsListingResponseSchema = z.object({
-  items: z.array(productSchema),
-  totalCount: z.number(),
-  hasNext: z.boolean(),
-  hasPrev: z.boolean(),
-  nextCursor: z.string().optional(),
-  prevCursor: z.string().optional(),
-});
-
-const productResponseSchema = z.object({
-  item: productSchema,
-});
 
 export async function fetchProductsByCollections(options: {
   collections: string[];
@@ -136,4 +106,4 @@ export async function fetchRelatedProducts(options: {
   return response.items;
 }
 
-export type ApiProduct = z.infer<typeof productSchema>;
+export type ApiProduct = ProductDto;

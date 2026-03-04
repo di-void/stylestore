@@ -10,6 +10,7 @@
     "astro:sync": "astro sync"
   },
   "dependencies": {
+    "@stylestore/contracts": "workspace:",
     "@astrojs/node": "9.5.4",
     "@astrojs/react": "4.4.2",
     "astro": "5.18.0",

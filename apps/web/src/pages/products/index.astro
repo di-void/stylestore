@@ -5,6 +5,7 @@ import ProductsCategoriesRow from "../../components/products-categories-row.astr
 import ProductsCategoriesSkeleton from "../../components/products-categories-skeleton.astro";
 import ProductsPagination from "../../components/products-pagination.astro";
 import ProductsEmptyState from "../../components/products-empty-state.astro";
+
 import { fetchProductsListingPage } from "../../lib/api/products";
 
 const searchQuery = (Astro.url.searchParams.get("q") ?? "").trim();
@@ -79,49 +80,51 @@ const products = pageData.items;
                 <ProductsFilters client:load />
 
                 <div class="lg:col-span-9">
-                    {products.length === 0 ? (
-                        <ProductsEmptyState
-                            searchQuery={searchQuery}
-                            categoryParam={categoryParam}
-                        />
-                    ) : (
-                        <>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {products.map((product) => (
-                                    <a
-                                        href={`/product/${product.id}`}
-                                        class="group block"
-                                    >
-                                        <div class="relative aspect-[3/4] bg-gray-100 border border-line-strong overflow-hidden mb-4">
-                                            <img
-                                                src={product.image}
-                                                alt={product.name}
-                                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                                            />
-                                        </div>
-                                        <p class="text-xs opacity-60 mb-1 font-medium capitalize">
-                                            {product.category}
-                                        </p>
-                                        <h3 class="text-sm capitalize mb-2 font-medium">
-                                            {product.name}
-                                        </h3>
-                                        <p class="text-sm font-medium">
-                                            ${product.price.toFixed(2)}
-                                        </p>
-                                    </a>
-                                ))}
-                            </div>
-
-                            <ProductsPagination
-                                hasNext={pageData.hasNext}
-                                hasPrev={pageData.hasPrev}
-                                nextCursor={pageData.nextCursor}
-                                prevCursor={pageData.prevCursor}
+                    {
+                        products.length === 0 ? (
+                            <ProductsEmptyState
                                 searchQuery={searchQuery}
                                 categoryParam={categoryParam}
                             />
-                        </>
-                    )}
+                        ) : (
+                            <>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {products.map((product) => (
+                                        <a
+                                            href={`/product/${product.id}`}
+                                            class="group block"
+                                        >
+                                            <div class="relative aspect-[3/4] bg-gray-100 border border-line-strong overflow-hidden mb-4">
+                                                <img
+                                                    src={product.image}
+                                                    alt={product.name}
+                                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                                />
+                                            </div>
+                                            <p class="text-xs opacity-60 mb-1 font-medium capitalize">
+                                                {product.category}
+                                            </p>
+                                            <h3 class="text-sm capitalize mb-2 font-medium">
+                                                {product.name}
+                                            </h3>
+                                            <p class="text-sm font-medium">
+                                                ${product.price.toFixed(2)}
+                                            </p>
+                                        </a>
+                                    ))}
+                                </div>
+
+                                <ProductsPagination
+                                    hasNext={pageData.hasNext}
+                                    hasPrev={pageData.hasPrev}
+                                    nextCursor={pageData.nextCursor}
+                                    prevCursor={pageData.prevCursor}
+                                    searchQuery={searchQuery}
+                                    categoryParam={categoryParam}
+                                />
+                            </>
+                        )
+                    }
                 </div>
             </div>
         </div>

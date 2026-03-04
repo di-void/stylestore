@@ -263,7 +263,7 @@ export function CheckoutForm() {
                   >
                     <div className="w-16 h-20 bg-gray-200 border border-line overflow-hidden flex-shrink-0">
                       <img
-                        src={item.product.image}
+                        src={item.product.image ?? ""}
                         alt={item.product.name}
                         className="w-full h-full object-cover"
                       />

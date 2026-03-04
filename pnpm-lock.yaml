@@ -20,6 +20,9 @@ importers:
       '@acme/add':
         specifier: 'workspace:'
         version: link:../../packages/add
+      '@stylestore/contracts':
+        specifier: 'workspace:'
+        version: link:../../packages/contracts
       '@t3-oss/env-core':
         specifier: 0.13.10
         version: 0.13.10(typescript@5.9.3)(zod@4.3.6)
@@ -75,6 +78,9 @@ importers:
       '@astrojs/react':
         specifier: 4.4.2
         version: 4.4.2(@types/node@25.3.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.31.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tsx@4.21.0)
+      '@stylestore/contracts':
+        specifier: 'workspace:'
+        version: link:../../packages/contracts
       astro:
         specifier: 5.18.0
         version: 5.18.0(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.9.3)
@@ -109,6 +115,12 @@ importers:
       '@types/node':
         specifier: ^25.3.0
         version: 25.3.0
+
+  packages/contracts:
+    dependencies:
+      zod:
+        specifier: ^4.0.17
+        version: 4.3.6
 
 packages:
 

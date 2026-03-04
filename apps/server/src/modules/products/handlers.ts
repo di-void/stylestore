@@ -5,7 +5,7 @@ import {
   getProductsByCollections,
   getProductsForListingPage,
   getRelatedProducts,
-} from "../../db/queries.js";
+} from "./queries.js";
 import type { Product } from "../../db/schema.js";
 
 import type {
@@ -18,7 +18,7 @@ import type {
   ProductsListingResponse,
   RelatedProductsQuery,
   RelatedProductsResponse,
-} from "./schema.js";
+} from "@stylestore/contracts";
 
 function mapProductDto(product: Product) {
   return {
@@ -36,7 +36,7 @@ function mapProductDto(product: Product) {
   };
 }
 
-export async function getProductsByCollectionsModule(
+export async function getProductsByCollectionsHandler(
   query: ProductsByCollectionsQuery,
 ): Promise<ProductsByCollectionsResponse> {
   const items = await getProductsByCollections({
@@ -47,7 +47,9 @@ export async function getProductsByCollectionsModule(
   return { items: items.map(mapProductDto) };
 }
 
-export async function getProductsListingModule(query: ProductsListingQuery) {
+export async function getProductsListingHandler(
+  query: ProductsListingQuery,
+): Promise<ProductsListingResponse> {
   const page = await getProductsForListingPage({
     search: query.q || undefined,
     category: query.category || undefined,
@@ -61,12 +63,12 @@ export async function getProductsListingModule(query: ProductsListingQuery) {
     totalCount: page.totalCount,
     hasNext: page.hasNext,
     hasPrev: page.hasPrev,
-    nextCursor: page.nextCursor,
-    prevCursor: page.prevCursor,
+    nextCursor: page.nextCursor ?? null,
+    prevCursor: page.prevCursor ?? null,
   };
 }
 
-export async function getProductCategoriesModule(): Promise<ProductCategoriesResponse> {
+export async function getProductCategoriesHandler(): Promise<ProductCategoriesResponse> {
   const categoryRows = await getProductCategories();
   const categories = Array.from(
     new Set(
@@ -79,7 +81,7 @@ export async function getProductCategoriesModule(): Promise<ProductCategoriesRes
   return { categories };
 }
 
-export async function getRelatedProductsModule(
+export async function getRelatedProductsHandler(
   query: RelatedProductsQuery,
 ): Promise<RelatedProductsResponse> {
   const items = await getRelatedProducts({
@@ -91,7 +93,7 @@ export async function getRelatedProductsModule(
   return { items: items.map(mapProductDto) };
 }
 
-export async function getProductByIdModule(
+export async function getProductByIdHandler(
   params: ProductIdParams,
 ): Promise<ProductResponse | null> {
   const product = await getProductById(params.id);

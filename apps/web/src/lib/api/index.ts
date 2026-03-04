@@ -18,7 +18,10 @@ export async function requestJson<T>(path: string, schema: z.ZodSchema<T>) {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new ApiError(response.status, `API request failed: ${response.status}`);
+    throw new ApiError(
+      response.status,
+      `API request failed: ${response.status}`,
+    );
   }
 
   const payload = await response.json();

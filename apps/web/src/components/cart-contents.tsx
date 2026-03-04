@@ -45,7 +45,7 @@ export function CartContents() {
                   <div className="w-32 h-40 bg-gray-100 border border-line overflow-hidden flex-shrink-0">
                     <a href={`/product/${item.product.id}`}>
                       <img
-                        src={item.product.image}
+                        src={item.product.image ?? ""}
                         alt={item.product.name}
                         className="w-full h-full object-cover hover:scale-105 transition duration-300"
                       />
@@ -61,7 +61,7 @@ export function CartContents() {
                         {item.product.name}
                       </a>
                       <p className="text-xs opacity-60 uppercase tracking-wide mb-1">
-                        {item.product.category}
+                        {item.product.category ?? "Uncategorized"}
                       </p>
                       <p className="text-sm opacity-60">
                         Size: <span className="uppercase">{item.size}</span> |
