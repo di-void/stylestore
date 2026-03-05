@@ -4,5 +4,21 @@ import { CartContents } from "../components/cart-contents";
 ---
 
 <StoreLayout title="StyleStore - Cart">
-    <CartContents client:load />
+    <CartContents client:only="react">
+        <div slot="fallback" class="bg-white min-h-[70vh]">
+            <div class="max-w-[1280px] mx-auto px-6 lg:px-12 py-12">
+                <div class="h-10 w-56 bg-gray-200 rounded mb-12 animate-pulse"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="h-40 w-full bg-gray-100 border border-gray-200 animate-pulse"></div>
+                        <div class="h-40 w-full bg-gray-100 border border-gray-200 animate-pulse"></div>
+                        <div class="h-40 w-full bg-gray-100 border border-gray-200 animate-pulse hidden md:block"></div>
+                    </div>
+                    <div class="lg:col-span-4">
+                        <div class="bg-gray-100 border border-gray-200 h-80 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </CartContents>
 </StoreLayout>

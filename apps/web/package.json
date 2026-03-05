@@ -10,10 +10,13 @@
     "astro:sync": "astro sync"
   },
   "dependencies": {
-    "@stylestore/contracts": "workspace:",
     "@astrojs/node": "9.5.4",
     "@astrojs/react": "4.4.2",
+    "@nanostores/persistent": "^1.3.3",
+    "@nanostores/react": "^1.0.0",
+    "@stylestore/contracts": "workspace:",
     "astro": "5.18.0",
+    "nanostores": "^1.1.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.0.17"

@@ -1,32 +1,31 @@
-import { useMemo, useSyncExternalStore } from "react";
+import { useMemo } from "react";
+import { useStore } from "@nanostores/react";
 import {
   addToCart,
+  $cartStore,
+  clearCart,
   getCartTotal,
-  getState,
-  placeOrder,
   removeFromCart,
-  subscribe,
   updateQuantity,
 } from "./cart-store";
 
 export function useCart() {
-  const state = useSyncExternalStore(subscribe, getState, getState);
+  const cart = useStore($cartStore);
 
   return useMemo(() => {
-    const cartItemsCount = state.cart.reduce(
+    const cartItemsCount = cart.reduce(
       (total, item) => total + item.quantity,
       0,
     );
 
     return {
-      cart: state.cart,
-      orders: state.orders,
+      cart,
       cartItemsCount,
-      cartTotal: getCartTotal(state.cart),
+      cartTotal: getCartTotal(cart),
       addToCart,
       removeFromCart,
       updateQuantity,
-      placeOrder,
+      clearCart,
     };
-  }, [state.cart, state.orders]);
+  }, [cart]);
 }

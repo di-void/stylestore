@@ -1,7 +1,9 @@
-import { useCart } from "../lib/use-cart";
+import { useStore } from "@nanostores/react";
+import { $cartStore } from "../lib/cart-store";
 
 export function CartBadge() {
-  const { cartItemsCount } = useCart();
+  const cart = useStore($cartStore);
+  const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <a

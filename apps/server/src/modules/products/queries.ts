@@ -10,8 +10,8 @@ import {
   ne,
   or,
   sql,
+  type SQL,
 } from "drizzle-orm";
-import type { SQL } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { products } from "../../db/schema.js";
 
